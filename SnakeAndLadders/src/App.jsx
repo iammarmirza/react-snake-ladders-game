@@ -1,10 +1,10 @@
-import './App.css'
+import SnakesAndLadders from "./components/SnakesAndLadders"
 
 function App() {
 
   return (
     <>
-      
+      <SnakesAndLadders />
     </>
   )
 }
