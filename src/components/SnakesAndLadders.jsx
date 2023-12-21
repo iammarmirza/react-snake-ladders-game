@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Dice from './Dice';
 import GameBoard from './GameBoard';
 
@@ -16,8 +16,6 @@ function SnakesAndLadders() {
             setIsGameActive(true)
         }
     }, [dice])
-
-    console.log(dice)
 
     return (
         <div className='flex flex-col items-center gap-6 h-screen bg-purple-900'>

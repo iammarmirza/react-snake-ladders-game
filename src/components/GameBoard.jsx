@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import { useState, useEffect } from "react"
 
 const NUMBERS = [
     [36, 35, 34, 33, 32, 31],
