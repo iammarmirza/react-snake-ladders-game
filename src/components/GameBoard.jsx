@@ -64,8 +64,8 @@ function GameBoard({ dice, isGameActive }) {
                 <div key={rowIndex} className="flex">
                     {row.map((number) => (
                         <div key={number} className={`${position === number ? 'border-8 border-purple-900' : ''} 
-                            ${SNAKES[number] ? "bg-[url('./src/assets/snake.png')] bg-cover" : ''} 
-                            ${LADDERS[number] ? "bg-[url('./src/assets/ladder.png')] bg-cover" : ''} 
+                            ${SNAKES[number] ? "bg-[url('/public/snake.png')] bg-cover" : ''} 
+                            ${LADDERS[number] ? "bg-[url('/public/ladder.png')] bg-cover" : ''} 
                             w-20 h-20 border border-purple-900 flex items-center justify-center`}>
                             <span className="text-2xl drop-shadow-2xl shadow-blue-600/50 font-extrabold text-center rounded-full">{number}</span>
                         </div>
