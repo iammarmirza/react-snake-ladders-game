@@ -1,4 +1,4 @@
-const IMAGES = ['one.png', 'two.png', 'three.png', 'four.png', 'five.png', 'six.png']
+import { IMAGES } from "../utils/constants"
 function Dice({dice, onClick}) {
   
   return (

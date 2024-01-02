@@ -1,26 +1,25 @@
 import { useState, useEffect } from "react"
+import { BOARD_NUMBERS, SNAKES, LADDERS } from '../utils/constants'
 
-const NUMBERS = [
-    [36, 35, 34, 33, 32, 31],
-    [25, 26, 27, 28, 29, 30],
-    [24, 23, 22, 21, 20, 19],
-    [13, 14, 15, 16, 17, 18],
-    [12, 11, 10, 9, 8, 7],
-    [1, 2, 3, 4, 5, 6]
-];
-
-const SNAKES = {
-    8: 4,
-    15: 10,
-    23: 17,
-    32: 25
+const BoardDiv = ({ row, position }) => {
+    return (
+        <div className="flex">
+            {row.map((number) => (
+                <BoardBlock key={number} isActive={position === number} number={number}/>
+            ))}
+        </div>
+    )
 }
 
-const LADDERS = {
-    2: 7,
-    6: 12,
-    19: 25,
-    27: 31,
+const BoardBlock = ({ isActive, number }) => {
+    return (
+        <div className={`${isActive ? 'border-8 border-purple-900' : ''} 
+                            ${SNAKES[number] ? "bg-[url('/public/snake.png')] bg-cover" : ''} 
+                            ${LADDERS[number] ? "bg-[url('/public/ladder.png')] bg-cover" : ''} 
+                            w-20 h-20 border border-purple-900 flex items-center justify-center`}>
+            <span className="text-2xl drop-shadow-2xl shadow-blue-600/50 font-extrabold text-center rounded-full">{number}</span>
+        </div>
+    )
 }
 
 function GameBoard({ dice, isGameActive }) {
@@ -28,14 +27,17 @@ function GameBoard({ dice, isGameActive }) {
     const [position, setPosition] = useState(0)
 
     useEffect(() => {
-        if (isGameActive === true) {
+        if (!!isGameActive) {
             alert('Game Begins')
             setPosition(1)
         }
     }, [isGameActive])
 
     useEffect(() => {
-        if (dice && isGameActive === true) setPosition(position + dice)
+        if (!!isGameActive) {
+            const targetPosition = Math.floor(position + dice, 36)
+            if(targetPosition <= 36) setPosition(targetPosition)
+        }
     }, [dice])
 
     useEffect(() => {
@@ -43,8 +45,6 @@ function GameBoard({ dice, isGameActive }) {
         if (position === 36) {
             alert('Congratulations, You won the Game!')
         }
-
-        if (position > 36) setPosition((prevPosition) => prevPosition - dice)
 
         if (SNAKES[position]) {
             setPosition(SNAKES[position])
@@ -60,17 +60,8 @@ function GameBoard({ dice, isGameActive }) {
 
     return (
         <div className="mt-5 bg-white shadow-black shadow-lg">
-            {NUMBERS.map((row, rowIndex) => (
-                <div key={rowIndex} className="flex">
-                    {row.map((number) => (
-                        <div key={number} className={`${position === number ? 'border-8 border-purple-900' : ''} 
-                            ${SNAKES[number] ? "bg-[url('/public/snake.png')] bg-cover" : ''} 
-                            ${LADDERS[number] ? "bg-[url('/public/ladder.png')] bg-cover" : ''} 
-                            w-20 h-20 border border-purple-900 flex items-center justify-center`}>
-                            <span className="text-2xl drop-shadow-2xl shadow-blue-600/50 font-extrabold text-center rounded-full">{number}</span>
-                        </div>
-                    ))}
-                </div>
+            {BOARD_NUMBERS.map((row, rowIndex) => (
+                <BoardDiv key={rowIndex} row={row} position={position}/>
             ))}
         </div>
     );

@@ -8,11 +8,12 @@ function SnakesAndLadders() {
     const [isGameActive, setIsGameActive] = useState(false)
 
     const generateRandomNumber = () => {
-        setDice(Math.floor(Math.random() * 6) + 1)
+        const randomValue = Math.floor(Math.random() * 6) + 1
+        setDice(randomValue)
     }
 
     useEffect(() => {
-        if (dice === 6) {
+        if (dice === 6 && isGameActive === false) {
             setIsGameActive(true)
         }
     }, [dice])
