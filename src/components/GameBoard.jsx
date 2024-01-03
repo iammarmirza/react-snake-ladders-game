@@ -1,29 +1,11 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import { BOARD_NUMBERS, SNAKES, LADDERS } from '../utils/constants'
+import { DiceContext } from "../contexts/DiceContext"
 
-const BoardDiv = ({ row, position }) => {
-    return (
-        <div className="flex">
-            {row.map((number) => (
-                <BoardBlock key={number} isActive={position === number} number={number}/>
-            ))}
-        </div>
-    )
-}
+function GameBoard() {
+    const {dice} = useContext(DiceContext)
 
-const BoardBlock = ({ isActive, number }) => {
-    return (
-        <div className={`${isActive ? 'border-8 border-purple-900' : ''} 
-                            ${SNAKES[number] ? "bg-[url('/public/snake.png')] bg-cover" : ''} 
-                            ${LADDERS[number] ? "bg-[url('/public/ladder.png')] bg-cover" : ''} 
-                            w-20 h-20 border border-purple-900 flex items-center justify-center`}>
-            <span className="text-2xl drop-shadow-2xl shadow-blue-600/50 font-extrabold text-center rounded-full">{number}</span>
-        </div>
-    )
-}
-
-function GameBoard({ dice, isGameActive }) {
-
+    const [isGameActive, setIsGameActive] = useState(false)
     const [position, setPosition] = useState(0)
 
     useEffect(() => {
@@ -34,6 +16,10 @@ function GameBoard({ dice, isGameActive }) {
     }, [isGameActive])
 
     useEffect(() => {
+        if (dice === 6 && isGameActive === false) {
+            setIsGameActive(true)
+        }
+
         if (!!isGameActive) {
             const targetPosition = Math.floor(position + dice, 36)
             if(targetPosition <= 36) setPosition(targetPosition)
@@ -67,5 +53,27 @@ function GameBoard({ dice, isGameActive }) {
     );
 
 }
+
+const BoardDiv = ({ row, position }) => {
+    return (
+        <div className="flex">
+            {row.map((number) => (
+                <BoardBlock key={number} isActive={position === number} number={number}/>
+            ))}
+        </div>
+    )
+}
+
+const BoardBlock = ({ isActive, number }) => {
+    return (
+        <div className={`${isActive ? 'border-8 border-purple-900' : ''} 
+                            ${SNAKES[number] ? "bg-[url('/public/snake.png')] bg-cover" : ''} 
+                            ${LADDERS[number] ? "bg-[url('/public/ladder.png')] bg-cover" : ''} 
+                            w-20 h-20 border border-purple-900 flex items-center justify-center`}>
+            <span className="text-2xl drop-shadow-2xl shadow-blue-600/50 font-extrabold text-center rounded-full">{number}</span>
+        </div>
+    )
+}
+
 
 export default GameBoard
